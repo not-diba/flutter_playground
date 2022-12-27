@@ -66,17 +66,55 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildResultArea() {
-    return Text(
-      _messageToUser,
-      textAlign: TextAlign.center,
+    double loveFlutterSliderValue = 1.0;
+
+    return Column(
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: _updateResults,
+          child: const Text("Submit"),
+        ),
+        const SizedBox(width: 15.0),
+        const Text(
+            "On a scale of 1 to 10, how much do you love flutter apps ?"),
+        Slider(
+          min: 1.0,
+          max: 10.0,
+          divisions: 9,
+          value: loveFlutterSliderValue,
+          onChanged: _updateLoveFlutterSlider,
+          label: "${loveFlutterSliderValue.toInt()}",
+        ),
+        Text(
+          _messageToUser,
+          textAlign: TextAlign.center,
+        )
+      ],
     );
+  }
+
+  void _updateLoveFlutterSlider(double x) {
+    setState(() {
+      loveFlutterSliderValue = x;
+    });
+  }
+
+  void _updateResults() {
+    setState(() {
+      _messageToUser =
+          _youAre + (loveFlutterSliderValue >= 8 ? " " : " NOT ") + _compatible;
+    });
   }
 
   void _updateAgeSwitch(bool x) {
     setState(() {
       _ageSwitchValue = x;
-      _messageToUser =
-          _youAre + (_ageSwitchValue ? " " : " NOT ") + _compatible;
     });
   }
+
+  // void _updateResults() {
+  //   setState(() {
+  //     _messageToUser = "You are${_ageSwitchValue ? " " : " NOT "}$_compatible";
+  //   });
+  // }
 }
