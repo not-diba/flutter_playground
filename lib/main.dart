@@ -28,15 +28,13 @@ class _MyHomePageState extends State<MyHomePage> {
   String _pressedOrNot = "Button not pressed.";
 
   void _changeText() {
-    setState(_getNewText);
-  }
-
-  void _getNewText() {
-    if (_pressedOrNot == "Button not pressed.") {
-      _pressedOrNot = "BUTTON PRESSED.";
-    } else {
-      _pressedOrNot = "Button not pressed.";
-    }
+    setState(() {
+      if (_pressedOrNot == "Button not pressed.") {
+        _pressedOrNot = "BUTTON PRESSED.";
+      } else {
+        _pressedOrNot = "Button not pressed.";
+      }
+    });
   }
 
   @override
