@@ -1,73 +1,109 @@
+// App0806.dart
+
 import 'package:flutter/material.dart';
 
-import 'playground_1.dart';
+void main() => runApp(App0803());
 
-main() => runApp(const Playground());
-
-class Playground extends StatelessWidget {
-  const Playground({super.key});
-
+class App0803 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Playground',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: SafeArea(
-        child: MovieTitlePage(),
-      ),
+      routes: {
+        '/': (context) => MovieTitlePage(),
+        '/details': (context) => DetailPage(),
+        '/details/cast': (context) => CastPage(),
+        '/details/reviews': (context) => ReviewsPage(),
+      },
     );
   }
 }
 
-class MovieTitlePage extends StatefulWidget {
-  @override
-  MovieTitlePageState createState() => MovieTitlePageState();
-}
+class MovieTitlePage extends StatelessWidget {
+  const MovieTitlePage({super.key});
 
-class MovieTitlePageState extends State<MovieTitlePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Movie Title',
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: buildTitlePageCore(),
-        ),
+    return _easyScaffold(
+      appBarTitle: 'Movie Title Page',
+      body: _easyButton(
+        context,
+        label: 'Go to Detail Page',
+        whichRoute: '/details',
       ),
     );
   }
 }
 
 class DetailPage extends StatelessWidget {
-  final overview = '(From themoviedb.com) One day at work, unsuccessful '
-      'puppeteer Craig finds a portal into the head of actor John '
-      'Malkovich. The portal soon becomes a passion for anybody who '
-      'enters its mad and controlling world of overtaking another human '
-      'body.';
-
   const DetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Details',
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: buildDetailPageCore(context),
-        ),
+    return _easyScaffold(
+      appBarTitle: 'Detail Page',
+      body: Column(
+        children: <Widget>[
+          _easyButton(
+            context,
+            label: 'Go to Cast Page',
+            whichRoute: '/details/cast',
+          ),
+          _easyButton(
+            context,
+            label: 'Go to Reviews Page',
+            whichRoute: '/details/reviews',
+          ),
+        ],
       ),
     );
   }
+}
+
+class CastPage extends StatelessWidget {
+  const CastPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _easyScaffold(
+      appBarTitle: 'Cast Page',
+      body: Container(),
+    );
+  }
+}
+
+class ReviewsPage extends StatelessWidget {
+  const ReviewsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _easyScaffold(
+      appBarTitle: 'Reviews Page',
+      body: Container(),
+    );
+  }
+}
+
+Widget _easyScaffold({String? appBarTitle, Widget? body}) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(appBarTitle!),
+    ),
+    body: body,
+  );
+}
+
+Widget _easyButton(
+  BuildContext context, {
+  required String label,
+  required String whichRoute,
+}) {
+  return ElevatedButton(
+    child: Text(label),
+    onPressed: () {
+      Navigator.pushNamed(
+        context,
+        whichRoute,
+      );
+    },
+  );
 }
